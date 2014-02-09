@@ -1,1 +1,4 @@
 requests
+cssselect
+lxml
+cssutils
