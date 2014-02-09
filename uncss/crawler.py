@@ -3,6 +3,7 @@ import socket
 import os
 import subprocess
 import sys
+import abc
 
 
 class NotSuccessException(Exception):
@@ -21,9 +22,18 @@ class ScriptCannotBeFoundException(Exception):
     pass
 
 
+class ContentCrawler(object):
+    __metaclass__ = abc.ABCMeta
+
+    @staticmethod
+    @abc.abstractmethod
+    def get_source(url):
+        """ abstract """
+
+
 class StaticContentCrawler(object):
     @staticmethod
-    def get_html(url):
+    def get_source(url):
         host = url.split('/')[2]
         if not _can_host_be_resolved(host):
             raise UnknownHostException('%s' % host)
@@ -43,7 +53,7 @@ class DynamicContentCrawler:
 
         self.phantomjs_bin = phantomjs_bin
 
-    def get_html(self, url, script_filepath=None):
+    def get_source(self, url, script_filepath=None):
         script_filepath = self.__get_script_file_path(script_filepath)
 
         if not os.path.isfile(script_filepath):
@@ -62,7 +72,7 @@ class DynamicContentCrawler:
 
     def __get_script_file_path(self, script_filepath):
         if script_filepath is None:
-            return "%s/resources/phantomjs_get_html.js" % os.path.dirname(os.path.realpath(__file__))
+            return "%s/resources/phantomjs_get_source.js" % os.path.dirname(os.path.realpath(__file__))
 
         if os.path.isabs(script_filepath):
             return script_filepath
