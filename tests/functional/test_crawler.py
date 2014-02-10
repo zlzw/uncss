@@ -32,7 +32,7 @@ class DynamicContentCrawlerTestCase(TestCase):
 
     def test_absolute_script_file_path_get_source_ok(self):
         current_path = os.path.dirname(os.path.realpath(__file__))
-        absolute_script_file_path = os.path.abspath("%s/../../uncss/resources/phantomjs_get_source.js" % current_path)
+        absolute_script_file_path = os.path.abspath("%s/../../uncss/phantomjs_get_source.js" % current_path)
         self.crawler = DynamicContentCrawler()
         html = self.crawler.get_source('http://www.example.com', absolute_script_file_path)
         self.assertTrue("<title>Example Domain</title>" in html)
