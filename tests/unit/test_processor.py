@@ -1,5 +1,6 @@
 from unittest import TestCase
-from uncss.processor import CssResource, CssCleaner
+from uncss.resources import CssResource
+from uncss.processor import CssCleaner
 
 
 HTML_SOURCE = """
@@ -8,6 +9,8 @@ HTML_SOURCE = """
     <head>
         <title>one</title>
         <link rel="stylesheet" href='one.css'>
+        <link rel="stylesheet" href='two/foo.css'>
+        <link rel="stylesheet" href='http://www.example.com/two.css'>
     </head>
     <body>
         <h1>h1</h1>
@@ -25,22 +28,6 @@ CSS_SOURCE = """
     .foo, h4, h2 { color:red }
     #none, .hello { world: hello; }
 """
-
-
-class CssResourceTestCase(TestCase):
-    def test_rules(self):
-        css_resource = CssResource(CSS_SOURCE)
-
-        expected_rules = [
-            (['body', 'html'], 'margin: 0'),
-            (['h1', 'h2', 'h3'], 'text-align: center'),
-            (['h3', 'h4'], 'font-family: serif'),
-            (['.foo'], 'something: hello'),
-            (['.foo', 'h4', 'h2'], 'color: red'),
-            (['#none', '.hello'], 'world: hello')
-        ]
-
-        self.assertEqual(expected_rules, css_resource.rules)
 
 
 class ProcessorTestCase(TestCase):

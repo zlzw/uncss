@@ -72,7 +72,7 @@ class DynamicContentCrawler:
 
     def __get_script_file_path(self, script_filepath):
         if script_filepath is None:
-            return "%s/resources/phantomjs_get_source.js" % os.path.dirname(os.path.realpath(__file__))
+            return "%s/phantomjs_get_source.js" % os.path.dirname(os.path.realpath(__file__))
 
         if os.path.isabs(script_filepath):
             return script_filepath

@@ -1,36 +1,7 @@
 from lxml import etree
 from lxml.cssselect import CSSSelector
-import cssutils
+from uncss.resources import CssResource
 
-
-class CssResource:
-    def __init__(self, css_source=None, url=None):
-        self.rules = self._get_rules(css_source) if css_source else None
-        self.url = url
-
-    @staticmethod
-    def _get_rules(css_source):
-        rules = []
-        sheet = cssutils.parseString(css_source)
-
-        for rule in sheet:
-            selectors = []
-            selector_list = rule.selectorList.seq
-            for selector in selector_list:
-                selector_name = selector.selectorText
-                selectors.append(selector_name)
-            styles = rule.style.cssText
-            rules.append((selectors, styles))
-
-        return rules
-
-    def __str__(self):
-        string = ''
-        for rule in enumerate(self.rules):
-            key = ', '.join(rule[1][0])
-            string += "%s {\n%s\n}\n" % (key, rule[1][1])
-
-        return string
 
 class CssCleaner:
     SPECIAL_SELECTORS = ['html']
