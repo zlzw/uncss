@@ -1,4 +1,4 @@
 requests
 cssselect
-lxml
+lxml==3.2.5
 cssutils
