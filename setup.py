@@ -2,7 +2,7 @@ import os
 from setuptools import setup
 
 install_requires = [
-    "requests", "cssselect", "lxml==3.2.5", "cssutils", "redis", "discover", "stagecoach-apy"
+    "requests", "cssselect", "lxml", "cssutils", "redis", "discover", "stagecoach-apy"
 ]
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
