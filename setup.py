@@ -15,6 +15,7 @@ setup(
         open(os.path.join(base_dir, "README.rst"), "r").read(),
         open(os.path.join(base_dir, "CHANGELOG.rst"), "r").read()
     ]),
+    data_files=['uncss/api/config/settings.yml', 'uncss/api/config/routes.yml'],
     url="https://github.com/stagecoachio/uncss",
     author="Felix Carmona",
     author_email="mail@felixcarmona.com",
