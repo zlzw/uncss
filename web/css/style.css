@@ -1,0 +1,48 @@
+.container {
+    overflow: hidden;
+    padding: 0 1em;
+    max-width: 42.5em;
+    margin: auto;
+}
+
+.results {
+    overflow: hidden;
+    padding: 0 1em;
+    max-width: 62.5em;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.title {
+    font-family: acta-display, Georgia, Times, serif;
+    font-size: 5em;
+    color: #333;
+    font-weight: normal;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.source-url-column {
+    width: 80%;
+}
+
+.link-source-url {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-results {
+    table-layout: fixed;
+    overflow:hidden;
+    white-space: nowrap;
+}
+
+.cleaned-css-column {
+    text-align: center;
+}
+
+#footer {
+    padding-top: 5%;
+    text-align: center;
+}

@@ -34,6 +34,9 @@ class ContentCrawler(object):
 class StaticContentCrawler(object):
     @staticmethod
     def get_source(url):
+        if url[:7] != "http://" and url[:8] != "https://":
+            url = 'http://' + url
+
         host = url.split('/')[2]
         if not _can_host_be_resolved(host):
             raise UnknownHostException('%s' % host)

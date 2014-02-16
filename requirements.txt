@@ -2,3 +2,5 @@ requests
 cssselect
 lxml==3.2.5
 cssutils
+redis
+git+https://github.com/stagecoachio/apy.git
