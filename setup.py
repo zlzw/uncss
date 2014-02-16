@@ -1,7 +1,13 @@
 import os
 from setuptools import setup
 
-install_requires = ["requests", "cssselect", "lxml==3.2.5", "cssutils", "discover"]
+install_requires = [
+    "requests", "cssselect", "lxml==3.2.5", "cssutils", "redis", "discover", "stagecoach-apy"
+]
+
+dependency_links = [
+    'https://github.com/stagecoachio/apy/tarball/master',
+]
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,6 +24,7 @@ setup(
     author_email="mail@felixcarmona.com",
     packages=["uncss"],
     zip_safe=False,
+    dependency_links=dependency_links,
     install_requires=install_requires,
     test_suite="tests.get_tests",
 )

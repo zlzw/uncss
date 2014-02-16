@@ -26,6 +26,7 @@ CSS_SOURCE = """
     h3, h4 { font-family: serif; }
     .foo { something:hello }
     .foo, h4, h2 { color:red }
+    ::-webkit-clear-button { preserve: this; }
     #none, .hello { world: hello; }
 """
 
@@ -42,7 +43,8 @@ class ProcessorTestCase(TestCase):
             (['body', 'html'], 'margin: 0'),
             (['h1', 'h2', 'h3'], 'text-align: center'),
             (['h3'], 'font-family: serif'),
-            (['h2'], 'color: red')
+            (['h2'], 'color: red'),
+            (['::-webkit-clear-button'], 'preserve: this')
         ]
 
         self.assertEqual(1, len(cleaned_css_resources))
@@ -51,7 +53,7 @@ class ProcessorTestCase(TestCase):
     def test_clean_css_resources_and_dump(self):
         resources = self.processor.clean_css_resources()
         resource = resources[0]
-        dump = str(resource)
+        dump = resource.get_as_string()
 
         expected_dump = """body, html {
 margin: 0
@@ -64,6 +66,9 @@ font-family: serif
 }
 h2 {
 color: red
+}
+::-webkit-clear-button {
+preserve: this
 }
 """
 

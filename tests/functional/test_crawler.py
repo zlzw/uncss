@@ -18,6 +18,10 @@ class StaticContentCrawlerTestCase(TestCase):
     def test_get_source_not_success(self):
         self.assertRaises(NotSuccessException, self.crawler.get_source, 'http://www.google.com/404')
 
+    def test_url_without_http_https(self):
+        html = self.crawler.get_source('www.example.com')
+        self.assertTrue("<title>Example Domain</title>" in html)
+
 
 class DynamicContentCrawlerTestCase(TestCase):
     def setUp(self):

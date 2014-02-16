@@ -6,14 +6,13 @@ from uncss.resources import CssResource
 class CssCleaner:
     SPECIAL_SELECTORS = ['html']
 
-    def __init__(self, html, css_resources, preserve_special_selectors=True):
+    def __init__(self, html, css_resources):
         """
         @type html str
         @type css_resources CssResource()[]
         """
         self.body = self._get_body_from_html(html)
         self.css_resources = css_resources
-        self.preserve_special_selectors = preserve_special_selectors
 
     @staticmethod
     def _get_body_from_html(html):
@@ -36,23 +35,33 @@ class CssCleaner:
         for rule in css_resource.rules:
             used_selectors = []
             selectors = rule[0]
+
             for selector in selectors:
                 if self._is_used_selector(selector):
                     used_selectors.append(selector)
+
             if used_selectors:
                 used_rules.append((used_selectors, rule[1]))
 
         cleaned_css_resource = CssResource(url=css_resource.url)
         cleaned_css_resource.rules = used_rules
+        cleaned_css_resource.non_rules = css_resource.non_rules
 
         return cleaned_css_resource
 
     def _is_used_selector(self, selector):
         """ @type selector str """
-        if self.preserve_special_selectors and selector in self.SPECIAL_SELECTORS:
+        if selector in self.SPECIAL_SELECTORS or self._is_pseudo_element(selector):
             return True
 
         if CSSSelector(selector)(self.body):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def _is_pseudo_element(selector):
+        if ":" in selector:
             return True
         else:
             return False
