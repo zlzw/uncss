@@ -1,6 +1,6 @@
 requests
 cssselect
-lxml==3.2.5
+lxml
 cssutils
 redis
 stagecoach-apy
