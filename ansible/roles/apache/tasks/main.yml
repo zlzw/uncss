@@ -1,0 +1,17 @@
+- name: install apache
+  apt: name=apache2
+  sudo: yes
+
+- name: disable default sites
+  command: a2dissite default
+  sudo: yes
+
+- name: create apache2 site
+  template: src=static-site.j2 dest=/etc/apache2/sites-available/uncss.conf group=root mode=644
+  sudo: yes
+
+- name: enable apache2 site
+  command: a2ensite uncss.conf
+  sudo: yes
+  notify:
+    - reload apache2

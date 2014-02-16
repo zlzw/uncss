@@ -1,4 +1,16 @@
+
+
+
 function TodoCtrl($scope, $http) {
+    // default config. should be overwritten in the next ajax request.
+    $scope.config = {
+        "api_url": "http://localhost"
+    };
+
+    $.getJSON( "js/config.json", function( data ) {
+        $scope.config = data;
+    });
+
     $scope.links = [];
     $scope.html_key = null;
     $scope.is_processing_html = false;
@@ -10,8 +22,14 @@ function TodoCtrl($scope, $http) {
             return;
         }
         $scope.is_processing_html = true;
-        url = encodeURIComponent(url);
-        $http({method: 'GET', url: 'http://localhost:8097/process_html/' + url}).
+
+        $http(
+            {
+                method: 'POST',
+                url: $scope.config.api_url + '/process_html',
+                data: $.param({'url': url})
+            }
+        ).
           success(function(data, status, headers, config) {
                 $scope.is_processing_html = false;
                 if(data.links.length == 0) {
@@ -23,10 +41,14 @@ function TodoCtrl($scope, $http) {
                     $scope.links.push({'source': source, 'status': 'processing'});
                 });
 
-                var css_url;
                 $scope.links.forEach(function(link){
-                    css_url = encodeURIComponent(link.source);
-                    $http({method: 'GET', url: 'http://localhost:8097/clean_css/' + $scope.html_key + '/' + css_url}).
+                    $http(
+                        {
+                            method: 'POST',
+                            url: $scope.config.api_url + '/clean_css',
+                            data: $.param({'html_key': $scope.html_key, 'css_source_url': link.source})
+                        }
+                    ).
                         success(function(data, status, headers, config) {
                             link.status = 'success';
                             link.css_key = data;

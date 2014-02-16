@@ -1,0 +1,2 @@
+static_web_domain: 192.168.33.10
+api_domain: 192.168.33.10:8091

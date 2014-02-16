@@ -1,0 +1,26 @@
+- name: clone repository
+  git: repo=git://github.com/stagecoachio/uncss.git dest=/uncss
+  sudo: yes
+
+- name: install base packages
+  apt: name={{item}} update_cache=yes
+  with_items:
+    - python-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - lib32z1-dev
+  sudo: yes
+
+- name: install uncss
+  command: python setup.py install chdir=/uncss
+  sudo: yes
+
+- name: uncss-api as service
+  template: src=api-service.j2 dest=/etc/init/uncss-api.conf group=root mode=644
+  sudo: yes
+  notify:
+    - restart uncss-api
+
+- name: expose /uncss in apache
+  file: src=/uncss/web dest=/var/www/uncss owner=root group=root state=link mode=0755
+  sudo: yes

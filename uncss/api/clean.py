@@ -65,15 +65,17 @@ class FileSourceManager(SourceManager):
         file_name = '%s/%s' % (self.path, identification)
         source = open(file_name, 'rb').read()
         source = source.decode(encoding='utf-8')
-        #source = str(source, encoding='utf-8')
         return source
 
 
 class ProcessHtml(Controller):
-    def action(self, url):
-        response = JsonResponse()
+    def action(self):
+        url = self._request.data.get('url')
 
         url = unquote(url)
+
+        response = JsonResponse()
+
         content_crawler = StaticContentCrawler()
 
         html_source = content_crawler.get_source(url)
@@ -88,16 +90,21 @@ class ProcessHtml(Controller):
             'html_key': html_key
         }
 
-        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'})
+        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
+
         return response
 
 
 class CleanCss(Controller):
-    def action(self, html_key, css_source_url):
+    def action(self):
+        html_key = self._request.data.get('html_key')
+        css_source_url = self._request.data.get('css_source_url')
+
+        css_source_url = unquote(css_source_url)
+
         html_manager = FileSourceManager('/tmp/uncss/html')
         html_source = html_manager.load(html_key)
 
-        css_source_url = unquote(css_source_url)
 
         content_crawler = StaticContentCrawler()
         css_source = content_crawler.get_source(css_source_url)
@@ -114,6 +121,8 @@ class CleanCss(Controller):
 
         response.data = css_key
 
+        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
+
         return response
 
 
@@ -123,7 +132,9 @@ class GetCss(Controller):
         css_source = css_manager.load(css_key)
 
         response = Response()
+
         response.data = css_source
 
-        response.headers.add({'Content-Type': 'text/css'})
+        response.headers.add({'Access-Control-Allow-Origin': '*', 'Content-Type': 'text/css', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
+
         return response

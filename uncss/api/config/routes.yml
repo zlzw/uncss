@@ -1,14 +1,14 @@
 process_html:
-    path:       /process_html/{url}
-    methods:     GET
+    path:       /process_html
+    methods:    POST
     controller: uncss.api.clean.ProcessHtml
 
 clean_css:
-    path:       /clean_css/{html_key}/{css_source_url}
-    methods:     GET
+    path:       /clean_css
+    methods:    POST
     controller: uncss.api.clean.CleanCss
 
 get_css:
     path:       /get_css/{css_key}
-    methods:     GET
+    methods:    GET
     controller: uncss.api.clean.GetCss

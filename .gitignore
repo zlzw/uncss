@@ -4,5 +4,6 @@
 *.so
 build/
 
+.vagrant/
 .idea/
 .DS_Store

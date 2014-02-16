@@ -11,8 +11,8 @@
 
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
-    <script src="http://code.angularjs.org/1.2.12/angular.min.js"></script>
-    <script src="js/todo.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
     <title>uncss &mdash; Scan your page automatically and create new CSS files removing all the unused CSS</title>
 
     <link rel="shortcut icon" href="img/favicon.ico" />
@@ -71,7 +71,7 @@
                     <span ng-switch-when="processing">Processing...</span>
                     <span ng-switch-when="error" class="text-danger">Error</span>
                     <span ng-switch-when="success">
-                        <a href="http://localhost:8097/get_css/{{link.css_key}}" target="_blank">Download</a>
+                        <a href="{{config.api_url}}/get_css/{{link.css_key}}" target="_blank">Download</a>
                     </span>
                 </td>
             </tr>

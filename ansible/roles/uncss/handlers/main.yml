@@ -1,0 +1,7 @@
+- name: restart uncss-api
+  service: name=uncss-api state=restarted
+  sudo: yes
+
+- name: reload apache2
+  command: service apache2 reload
+  sudo: yes
