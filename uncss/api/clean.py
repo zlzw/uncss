@@ -68,7 +68,14 @@ class FileSourceManager(SourceManager):
         return source
 
 
-class ProcessHtml(Controller):
+class CleanController(Controller):
+    def options(self, **args):
+        response = Response()
+        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
+        return response
+
+
+class ProcessHtml(CleanController):
     def action(self):
         url = self._request.data.get('url')
 
@@ -95,7 +102,7 @@ class ProcessHtml(Controller):
         return response
 
 
-class CleanCss(Controller):
+class CleanCss(CleanController):
     def action(self):
         html_key = self._request.data.get('html_key')
         css_source_url = self._request.data.get('css_source_url')
@@ -126,7 +133,7 @@ class CleanCss(Controller):
         return response
 
 
-class GetCss(Controller):
+class GetCss(CleanController):
     def action(self, css_key):
         css_manager = FileSourceManager('/tmp/uncss/css')
         css_source = css_manager.load(css_key)

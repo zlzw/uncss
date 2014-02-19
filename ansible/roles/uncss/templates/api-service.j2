@@ -10,4 +10,7 @@ pre-start script
         test -d /var/log/uncss || mkdir -p /var/log/uncss
 end script
 
-exec python /uncss/uncss/api/run_server.py >> /var/log/uncss/uncss.log 2>&1
+script
+        chdir /uncss
+        exec python -m uncss.api.run_server.py >> /var/log/uncss/uncss.log 2>&1
+end script

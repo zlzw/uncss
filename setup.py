@@ -9,7 +9,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name="stagecoach-uncss",
-    version="0.0.9.dev",
+    version="0.0.17.dev",
     description="Scan your page automatically and create new CSS files removing all the unused CSS",
     long_description="\n\n".join([
         open(os.path.join(base_dir, "README.rst"), "r").read(),
