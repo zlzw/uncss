@@ -1,4 +1,6 @@
 - hosts: localhost
+  vars_files:
+    - "config.yml"
   roles:
     - base
     - apache

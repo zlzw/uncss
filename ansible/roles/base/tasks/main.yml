@@ -6,5 +6,6 @@
     - git
     - python-pip
     - curl
+    - vim
   sudo: yes
 

@@ -2,6 +2,12 @@
   git: repo=git://github.com/stagecoachio/uncss.git dest=/uncss
   sudo: yes
 
+- name: apply api settings
+  template: src=api-settings.j2 dest=/uncss/uncss/api/config/settings.yml group=root mode=644
+  sudo: yes
+  notify:
+    - restart uncss-api
+
 - name: install base packages
   apt: name={{item}} update_cache=yes
   with_items:
@@ -23,4 +29,12 @@
 
 - name: expose /uncss in apache
   file: src=/uncss/web dest=/var/www/uncss owner=root group=root state=link mode=0755
+  sudo: yes
+
+- name: apply frontend config
+  template: src=frontend-config.j2 dest=/var/www/uncss/js/config.json group=root mode=644
+  sudo: yes
+
+- name: cron delete tmp files
+  cron: name="delete html and css temporal files" hour="0,6,12,18" job="find /tmp/uncss/html/* /tmp/uncss/css/* -amin +360 -exec rm {} \;"
   sudo: yes
