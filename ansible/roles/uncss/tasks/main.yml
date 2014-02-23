@@ -1,15 +1,11 @@
-- name: clone repository
-  git: repo=git://github.com/stagecoachio/uncss.git dest=/uncss
-  sudo: yes
-
 - name: apply api settings
   template: src=api-settings.j2 dest=/uncss/uncss/api/config/settings.yml group=root mode=644
   sudo: yes
   notify:
     - restart uncss-api
 
-- name: install base packages
-  apt: name={{item}} update_cache=yes
+- name: install uncss base packages
+  apt: name={{item}}
   with_items:
     - python-dev
     - libxml2-dev

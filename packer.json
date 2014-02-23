@@ -1,0 +1,29 @@
+{
+    "builders": [
+        {
+            "type": "digitalocean",
+            "client_id": "...",
+            "api_key": "...",
+            "snapshot_name": "uncss",
+            "image_id": 1505699,
+            "region_id": 4,
+            "size_id": 66
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": ".",
+            "destination": "/uncss/"
+        },
+        {
+            "type": "shell",
+            "script": "ansible/provisioner.sh"
+        },
+        {
+            "type": "ansible-local",
+            "staging_directory": "/uncss/ansible",
+            "playbook_file": "ansible/playbook.yml"
+        }
+    ]
+}

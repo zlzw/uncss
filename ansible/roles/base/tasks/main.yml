@@ -1,11 +1,21 @@
-- name: install base packages
-  apt: name={{item}} update_cache=yes
+- name: add user {{ ssh_user }}
+  user: name={{ ssh_user }} groups="sudo" shell="/bin/bash"
+  sudo: yes
+  when: ssh_user is defined
+
+- name: add authorized key {{ ssh_pub_key }} for user {{ ssh_user }}
+  authorized_key: user={{ ssh_user }} key="{{ ssh_pub_key }}" manage_dir=no
+  sudo: yes
+  when: ssh_user is defined and ssh_pub_key is defined
+
+- name: apt update
+  apt: update_cache=yes
+  sudo: yes
+
+- name: install system base packages
+  apt: name={{item}}
   with_items:
-    - build-essential
     - upstart
     - git
     - python-pip
-    - curl
-    - vim
   sudo: yes
-

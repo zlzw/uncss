@@ -3,7 +3,7 @@
   sudo: yes
 
 - name: disable default sites
-  command: a2dissite default
+  command: a2dissite 000-default.conf
   sudo: yes
 
 - name: create apache2 site
