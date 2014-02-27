@@ -1,0 +1,2 @@
+[uncss]
+your_remote_host ansible_ssh_user=your_user ansible_ssh_port=22

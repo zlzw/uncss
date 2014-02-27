@@ -41,7 +41,7 @@ class RedisSourceManager(SourceManager):
 
     def load(self, identification):
         source = self.redis.get('%s:%s' % (self.prefix, identification))
-        return str(source, encoding='UTF-8')
+        return str(source, encoding='UTF-8')  # TODO: fix this. (doesn't work on python 2)
 
 
 class FileSourceManager(SourceManager):
@@ -69,13 +69,21 @@ class FileSourceManager(SourceManager):
 
 
 class CleanController(Controller):
-    def options(self, **args):
-        response = Response()
-        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
+    def post_controller(self, response):
+        response.headers.add(
+            {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+            }
+        )
         return response
 
 
 class ProcessHtml(CleanController):
+    def validate_action(self):
+        if not self._request.data.has('url'):
+            return False
+
     def action(self):
         url = self._request.data.get('url')
 
@@ -97,8 +105,6 @@ class ProcessHtml(CleanController):
             'html_key': html_key
         }
 
-        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
-
         return response
 
 
@@ -112,11 +118,10 @@ class CleanCss(CleanController):
         html_manager = FileSourceManager('/tmp/uncss/html')
         html_source = html_manager.load(html_key)
 
-
         content_crawler = StaticContentCrawler()
         css_source = content_crawler.get_source(css_source_url)
         css_resource = CssResource(css_source)
-        css_cleaner = CssCleaner(html_source, [css_resource])
+        css_cleaner = CssCleaner(html_source, [css_resource])  # TODO: fix the unicode html_source -> str
         cleaned_css_resources = css_cleaner.clean_css_resources()
         cleaned_css_resource = cleaned_css_resources[0]
         cleaned_css_source = cleaned_css_resource.get_as_string()
@@ -127,8 +132,6 @@ class CleanCss(CleanController):
         response = Response()
 
         response.data = css_key
-
-        response.headers.add({'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
 
         return response
 
@@ -141,7 +144,5 @@ class GetCss(CleanController):
         response = Response()
 
         response.data = css_source
-
-        response.headers.add({'Access-Control-Allow-Origin': '*', 'Content-Type': 'text/css', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'})
 
         return response

@@ -8,6 +8,10 @@
   sudo: yes
   when: ssh_user is defined and ssh_pub_key is defined
 
+- name: add user {{ ssh_user }} to sudoers
+  lineinfile: "dest=/etc/sudoers state=present regexp='^{{ ssh_user }}' line='{{ ssh_user }} ALL=(ALL) NOPASSWD: ALL'"
+  sudo: yes
+
 - name: apt update
   apt: update_cache=yes
   sudo: yes

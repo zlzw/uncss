@@ -4,6 +4,11 @@
 *.so
 build/
 
+ansible/remote_host
+ansible/config.yml
+
+packer.json
+
 .vagrant/
 .idea/
 .DS_Store

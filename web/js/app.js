@@ -27,10 +27,10 @@ function TodoCtrl($scope, $http) {
             {
                 method: 'POST',
                 url: $scope.config.api_url + '/process_html',
+                headers: {"Content-Type": "text/plain"},
                 data: $.param({'url': url})
             }
-        ).
-          success(function(data, status, headers, config) {
+        ).success(function(data, status, headers, config) {
                 $scope.is_processing_html = false;
                 if(data.links.length == 0) {
                     $('#global_messages').append("<div class='alert alert-warning results'><a href='#' class='close' data-dismiss='alert'>&times;</a>No CSS links found in " + url + "</div>");
@@ -46,19 +46,17 @@ function TodoCtrl($scope, $http) {
                         {
                             method: 'POST',
                             url: $scope.config.api_url + '/clean_css',
+                            headers: {"Content-Type": "text/plain"},
                             data: $.param({'html_key': $scope.html_key, 'css_source_url': link.source})
                         }
-                    ).
-                        success(function(data, status, headers, config) {
+                    ).success(function(data, status, headers, config) {
                             link.status = 'success';
                             link.css_key = data;
-                        }).
-                        error(function(data, status, headers, config) {
+                    }).error(function(data, status, headers, config) {
                             link.status = 'error';
-                        });
+                    });
                 });
-          }).
-          error(function(data, status, headers, config) {
+          }).error(function(data, status, headers, config) {
                 $scope.is_processing_html = false;
                 $('#global_messages').append("<div class='alert alert-danger results'><a href='#' class='close' data-dismiss='alert'>&times;</a>Error processing " + url + "</div>");
           });

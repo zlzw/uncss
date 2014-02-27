@@ -1,0 +1,19 @@
+- name: deploying uncss python module
+  copy: src=../../../../uncss dest=/uncss/ owner=root group=root mode=0755
+  sudo: yes
+
+- name: deploying web
+  copy: src=../../../../web dest=/uncss/ owner=root group=root mode=0755
+  sudo: yes
+
+- name: deploying README
+  copy: src=../../../../README.rst dest=/uncss/ owner=root group=root mode=0755
+  sudo: yes
+
+- name: deploying CHANGELOG
+  copy: src=../../../../CHANGELOG.rst dest=/uncss/ owner=root group=root mode=0755
+  sudo: yes
+
+- name: deploying setup.py
+  copy: src=../../../../setup.py dest=/uncss/ owner=root group=root mode=0755
+  sudo: yes

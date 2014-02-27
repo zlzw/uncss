@@ -2,8 +2,8 @@
     "builders": [
         {
             "type": "digitalocean",
-            "client_id": "...",
-            "api_key": "...",
+            "client_id": "your_client_id",
+            "api_key": "your_api_key",
             "snapshot_name": "uncss",
             "image_id": 1505699,
             "region_id": 4,

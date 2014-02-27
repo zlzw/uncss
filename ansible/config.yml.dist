@@ -1,0 +1,6 @@
+ssh_user: "your_user_name"
+ssh_pub_key: "ssh-rsa ..."
+
+host: "your_server_host_or_ip"
+api_port: 8091
+api_protocol: "http"
