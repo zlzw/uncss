@@ -1,6 +1,0 @@
-ssh_user: uncss
-ssh_pub_key: "ssh-rsa ..."
-
-host: "uncss.local"
-api_port: 8080
-api_protocol: "http"
