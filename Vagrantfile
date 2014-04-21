@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-    config.vm.box = "saucy64"
+    config.vm.box = "https://cloud-images.ubuntu.com/vagrant/saucy/current/saucy-server-cloudimg-amd64-vagrant-disk1.box"
 
     config.vbguest.auto_update = true
 
